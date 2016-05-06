@@ -8,4 +8,3 @@ Functionalities:
 - 4. Enabling the sampling  balanced calsses for batch training by setting probability of each class in prototxt file
 - 5. Setting weighted loss for each class
 - 6. Including avaible inception-residual-fully convolutional archetecture, made particularlly for 3D neuron image segmentaion
-    }
