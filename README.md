@@ -1,5 +1,5 @@
 # DL_BigNeuron
-This code is modifided from master version of caffe(https://github.com/BVLC/caffe), particularlly for 3D neuron segmentaion in BigNeuron Project (https://http://alleninstitute.org/bigneuron/about/)
+This code is modifided from master version of caffe(https://github.com/BVLC/caffe), particularlly for 3D neuron image segmentaion in BigNeuron Project (https://http://alleninstitute.org/bigneuron/about/)
 
 Functionalities:
 - 1. Fully Convolutional  networks  with 3D data segmentataion.
