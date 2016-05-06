@@ -41,5 +41,5 @@ Functionalities:
 - 2. Selecting random patchs from input Volum  into batch to train the networks, eliminating the need to create patch files for training.
 - 3. Enabling the sampling  balanced calsses for batch training by set probability of each class in th file
 - 4. setting weighted loss for each class
-- 4. fast image based predictions.
+- 5. fast image based predictions.
     }
