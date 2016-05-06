@@ -1,0 +1,1 @@
+GLOG_logtostderr=1 /tempspace/tzeng/caffe_nd_sense_segmetation/.build_release/tools/caffe.bin train --weights patch_test_fcn_ResNET_5pool_snapshot_v2_iter_286.caffemodel --solver=finetune_solver_2.prototxt --gpu 6,10

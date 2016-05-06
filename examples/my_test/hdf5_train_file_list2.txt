@@ -1,0 +1,2 @@
+/tempspace/rli/caffe_3D_FastSEG_new/Background-LONI-original/data/hd5_train_1.h5
+/tempspace/rli/caffe_3D_FastSEG_new/Background-LONI-original/data/hd5_train_2.h5

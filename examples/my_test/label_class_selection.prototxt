@@ -1,0 +1,17 @@
+  ignore_rest_of_label:true
+  rest_of_label_mapping:false;
+  rest_of_label_mapping_label: 2;
+  rest_of_label_prob : 0.85;
+  label_prob_mapping_info{
+         label: 0
+         prob: 0.89
+ }
+  label_prob_mapping_info{
+         label: 1
+         prob: 0.11
+ }
+ label_prob_mapping_info{
+	label:3
+        prob: 0
+}
+  

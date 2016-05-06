@@ -1,0 +1,249 @@
+layer {
+  name: "data"
+  type: "PatchData"
+  top: "data"
+  top: "label"
+  include {
+    phase: TRAIN
+  }
+  patch_sampler_param{
+	   data_patch_shape{
+		dim: 35
+		dim: 35
+		dim: 9
+	   }
+	   label_patch_shape{
+		dim: 8
+		dim: 8
+		dim: 1
+	   }
+	   batch_size: 16
+	   patches_per_data_batch: 899999
+	   data_source_batch_size: 1
+	   label_select_param{
+			balance: true
+			num_labels: 3
+			num_top_label_balance: 2
+			reorder_label: false
+			class_prob_mapping_file: 'label_class_selection.prototxt'
+	   }
+
+ }
+  transform_nd_param{
+    mirror: false
+    padding: true
+    pad_method: ZERO
+  }
+  data_provider_param{
+    # Specify the data source.
+    backend: HDF5
+    batch_size: 1
+    hdf5_file_shuffle: true
+    data_source: "hdf5_train_file_list.txt"
+  }
+
+}
+
+
+layer {
+  name: "data"
+  type: "PatchData"
+  top: "data"
+  top: "label"
+  include {
+    phase: TEST
+  }
+  patch_sampler_param{
+	   data_patch_shape{
+		dim: 35
+		dim: 35
+		dim: 9
+	   }
+	   label_patch_shape{
+		dim: 8
+		dim: 8
+		dim: 1
+	   }
+	   batch_size: 32
+	   patches_per_data_batch: 899999
+	   data_source_batch_size: 1
+	   label_select_param{
+			   balance: true
+			   num_labels: 3
+			   num_top_label_balance: 2
+			   reorder_label: false
+			   class_prob_mapping_file: 'label_class_selection.prototxt'
+		}
+ }
+  transform_nd_param{
+    mirror: false
+    padding: true
+    pad_method: ZERO
+  }
+  data_provider_param{
+    # Specify the data source.
+    backend: HDF5
+    batch_size: 1
+    hdf5_file_shuffle: true
+    data_source: "hdf5_test_file_list.txt"
+  }
+
+}
+
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 32
+  # pad: 2
+    kernel_size: 5
+    kernel_size: 5
+    kernel_size: 5
+    #stride: 4
+	#stride: 4
+	stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.0001
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "conv1"
+  top: "conv2"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 64
+  #pad: 2
+    kernel_size: 5
+    kernel_size: 5
+    kernel_size: 5
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.0001
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+
+
+ layer {
+         type: "Reshape" bottom: "conv2" top: "conv2"
+          reshape_param {  shape { dim:  0  dim: 0 dim: 0 dim: 0} }
+       }
+
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv2"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 2
+    stride: 2
+  }
+}
+
+
+layer {
+  name: "conv3"
+  type: "Convolution"
+  bottom: "pool1"
+  top: "conv3"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 64
+  #pad: 2
+    kernel_size: 5
+    kernel_size: 5
+    #kernel_size: 1
+    #stride: 1
+    #stride: 4
+    stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.0001
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+  name: "conv4"
+  type: "Convolution"
+  bottom: "conv3"
+  top: "conv4"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 2
+  #pad: 2
+    kernel_size: 3
+    kernel_size: 3
+    #kernel_size: 1
+    stride: 1
+    #stride: 1
+    #stride: 1
+    weight_filler {
+      type: "gaussian"
+      std: 0.0001
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+
+#
+ layer {
+	name: "accuracy"
+	type: "Accuracy"
+	bottom: "conv4"
+	bottom: "label"
+	top: "accuracy"
+  include {
+    phase: TEST
+   }
+}
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "conv4"
+  bottom: "label"
+  top: "loss"
+}

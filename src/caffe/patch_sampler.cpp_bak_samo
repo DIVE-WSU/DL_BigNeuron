@@ -1,0 +1,99 @@
+#include <boost/thread.hpp>
+#include <map>
+#include <string>
+#include <vector>
+#include "caffe/common.hpp"
+#include "caffe/patch_sampler.hpp"
+#include "caffe/proto/caffe.pb.h"
+
+namespace caffe {
+
+
+//template class PatchSampler<float>;
+//template class PatchSampler<double>;
+
+//using boost::weak_ptr;
+
+//template <typename Dtype>
+//map<const string, weak_ptr<Runner<float> > > runners_;
+//map<const string, weak_ptr<Runner<double> > > runners_;
+//static boost::mutex runners_mutex_;
+
+template <typename Dtype>
+PatchSampler<Dtype>::PatchSampler(const LayerParameter& param)
+    :param_(param),
+    queue_pair_(new QueuePair_Batch<Dtype>(param)),
+    //d_provider_(new Data_provider<Dtype>(param)),
+    d_provider_(Data_provider<Dtype>::Make_data_provider_instance(param.data_provider_param)),
+    data_transformer_nd(new DataTransformerND<Dtype>(param.transform_nd_param()))
+{
+
+}
+
+template <typename Dtype>
+PatchSampler<Dtype>::~PatchSampler() {
+}
+
+template <typename Dtype>
+unsigned int PatchSampler<Dtype>::PrefetchRand(){
+  return 1;
+}
+
+template <typename Dtype>
+vector<int>& PatchSampler<Dtype>::patch_data_shape(){
+  return dest_data_shape_;
+}
+template <typename Dtype>
+vector<int>& PatchSampler<Dtype>::patch_label_shape(){
+  return dest_label_shape_;
+}
+
+template <typename Dtype>
+void PatchSampler<Dtype>::ReadOnePatch(QueuePair_Batch<Dtype>* qb ){
+  // load new data to memomry pool
+
+
+}
+//
+// template <typename Dtype>
+// QueuePair_Batch<Dtype>::QueuePair_Batch(const LayerParameter& param) {
+//   // Initialize the free queue with requested number of blobs
+// //  Batch_dat
+//
+// }
+//
+// template <typename Dtype>
+// QueuePair_Batch<Dtype>::~QueuePair_Batch() {
+// }
+
+//
+// template <typename Dtype>
+// Runner<Dtype>::Runner(const LayerParameter& param,const PatchSampler<Dtype>& p_sampler)
+//     : param_(param),
+//       new_queue_pairs_(),
+//       p_sampler_(p_sampler)
+//       {
+//   StartInternalThread();
+// }
+
+//
+// template <typename Dtype>
+// Runner<Dtype>::Runner(const LayerParameter& param)
+//     : param_(param),
+//       new_queue_pairs_()
+//       {
+//   StartInternalThread();
+// }
+//
+//
+// template <typename Dtype>
+// Runner<Dtype>::~Runner() {
+//   StopInternalThread();
+// }
+//
+// template <typename Dtype>
+// void Runner<Dtype>::InternalThreadEntry() {
+//
+//
+// }
+} // namespace caffe
