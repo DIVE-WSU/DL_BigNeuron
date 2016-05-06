@@ -3,8 +3,9 @@ This code is modifided from master version of caffe(https://github.com/BVLC/caff
 
 Functionalities:
 - 1. Fully Convolutional  networks  with 3D data segmentataion.
-- 2. Selecting random patchs from input Volum  into batch to train the networks, eliminating the need to create patch files for training.
-- 3. Enabling the sampling  balanced calsses for batch training by set probability of each class in th file
-- 4. setting weighted loss for each class
-- 5. fast image based predictions.
+- 2  Fast image based predictions.
+- 3. Selecting random patchs from 3d Volum  to build batch for networks training, eliminating the need to create patch files for training.
+- 4. Enabling the sampling  balanced calsses for batch training by setting probability of each class in prototxt file
+- 5. Setting weighted loss for each class
+- 6. Including avaible inception-residual-fully convolutional archetecture, made particularlly for 3D neuron image segmentaion
     }
